@@ -43,3 +43,17 @@ jobs:
         uses: everruler12/git-auto-commit-action@latest
         with:
           commit_message: Automatic backup
+  sshcmd:
+    name: sshcmd
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    needs: backup
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: bash /home/arpan/Projects/complete-wf.sh &> workflow.log &
